@@ -28,6 +28,13 @@ class Snake:
         square.goto(posicion)
         self.cuerpo.append(square)
 
+    def reset(self):
+        for square in self.cuerpo:
+            square.goto(10000,10000)
+        self.cuerpo.clear()
+        self.crear_serpiente()
+        self.cabeza = self.cuerpo[0]
+
     def crecer(self):
         # Añade un nuevo cuadrado a la serpiente, en la posicion de la ultima pieza
         self.añadir_cuadrado(self.cuerpo[-1].position())

@@ -13,6 +13,16 @@ pantalla.bgcolor("black")
 pantalla.title("Snake Game. Developed by Daniel R")
 pantalla.tracer(0)                          # Apagamos la animacion de la pantalla
 
+game_on = True
+
+# Esta funcion indica que hay que cerrar el juego. Se activa con la tecla Escape
+
+
+def fin_juego():
+    global game_on
+    game_on = False
+
+
 serpiente = Snake()
 bocadito = Comida()
 marcador = Marcador()
@@ -22,8 +32,8 @@ pantalla.onkey(key="Up", fun=serpiente.up)
 pantalla.onkey(key="Down", fun=serpiente.down)
 pantalla.onkey(key="Left", fun=serpiente.left)
 pantalla.onkey(key="Right", fun=serpiente.right)
+pantalla.onkey(key="Escape", fun=fin_juego)
 
-game_on = True
 
 while game_on:
     pantalla.update()                   # Al desactivar la animación de los cuadrados, debemos actualizar la pantalla
@@ -37,16 +47,19 @@ while game_on:
         serpiente.crecer()
 
     # Detectamos si hay colision con la pared
-    if serpiente.cabeza.xcor() > 280 or serpiente.cabeza.xcor() < -290 or serpiente.cabeza.ycor() > 270 or serpiente.cabeza.ycor() < -290:
-        game_on = False
-        marcador.game_over()
+    if serpiente.cabeza.xcor() > 280 or serpiente.cabeza.xcor() < -290 \
+            or serpiente.cabeza.ycor() > 270 or serpiente.cabeza.ycor() < -290:
+        marcador.reset()
+        serpiente.reset()
 
     # Detectamos choque con nuestro cuerpo
     for square in serpiente.cuerpo[1:]:
         if serpiente.cabeza.distance(square) < 10:
-            game_on = False
-            marcador.game_over()
+            marcador.reset()
+            serpiente.reset()
 
 
 # No cerramos la ventana hasta hacer click
-pantalla.exitonclick()
+# pantalla.exitonclick()
+# Cerramos la pantalla al salir del bucle
+pantalla.bye()
